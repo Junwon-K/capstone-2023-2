@@ -77,23 +77,30 @@ document.getElementById('apply-filter').addEventListener('click', function () {
         emergency_bell_disabled: document.getElementById('emergency_bell_disabled').checked
     };
 
+    // Log the filters object to the console
     console.log('Filters to send:', filters);
 
-    fetch('/apply-filters', { // Your backend endpoint goes here
-        method: 'POST', // or 'PUT' if your backend requires it
+    // Clear existing markers
+    clearMarkers();
+
+    // Assume that /apply-filters endpoint will return the filtered places
+    fetch('/apply-filter', {
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(filters) // convert the JavaScript object to a JSON string
+        body: JSON.stringify(filters)
     })
-    .then(response => response.json()) // parsing the JSON response from the server
+    .then(response => response.json())
     .then(data => {
-        console.log('Response from backend:', data);
-        // You can add code here to update the frontend with the response from the backend
+        // Assume the backend returns the data in the format expected by convertToPlaceFormat
+        const convertedData = convertToPlaceFormat(data);
+        markPlaces(convertedData);
     })
     .catch(error => {
-        console.error('Error applying filters:', error);
+        console.error('Error fetching filtered places:', error);
     });
 
+    // Close the modal
     modal.style.display = 'none';
 });
