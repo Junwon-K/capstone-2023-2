@@ -44,8 +44,8 @@ function convertToPlaceFormat(dbData) {
     return dbData.map(entry => {
         return {
             name: entry.name,
-            lat: parseFloat(entry.location_y),
-            lng: parseFloat(entry.location_x)
+            lat: parseFloat(entry.latitude),
+            lng: parseFloat(entry.longitude)
         };
     });
 }
@@ -117,7 +117,7 @@ function searchNearby(keyword, location, page = 1) {
             // 다음 페이지가 있다면 다음 검색 결과도 로드
             if (pagination.hasNextPage) {
                 setTimeout(() => {
-                    searchNearby(keyword, location, page + 1);
+                 //   searchNearby(keyword, location, page + 1);
                 }, 300);
             }
 
@@ -140,22 +140,44 @@ function performNewSearch(keyword) {
 
 //백엔드에서 정보 가져오기
 function fetchPlacesFromBackend(lat, lng) {
-    fetch("/showplace?lat=${lat}&lng=${lng}")
-        .then(response => response.json())
-        .then(data => {
-            const convertedData = convertToPlaceFormat(data);
-            markPlaces(convertedData);
+
+
+    var center = map.getCenter();
+    fetch(`/showplace`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+         disabled_person: document.getElementById('disabled_person').checked,
+        changing_table_man: document.getElementById('changing_table_man').checked,
+        changing_table_woman: document.getElementById('changing_table_woman').checked,
+        emergency_bell_man: document.getElementById('emergency_bell_man').checked,
+        emergency_bell_woman: document.getElementById('emergency_bell_woman').checked,
+        emergency_bell_disabled: document.getElementById('emergency_bell_disabled').checked,
+                lat: center.getLat(),
+                lng: center.getLng()
         })
-        .catch(error => {
-            console.error("Error fetching places:", error);
-        });
+    })
+    .then(response => response.json())
+    .then(data => {
+        // convertToPlaceFormat 함수를 이용해 백엔드로부터 받은 데이터를 마커로 변환
+        const convertedData = convertToPlaceFormat(data);
+        markPlaces(convertedData);
+    })
+    .catch(error => {
+        console.error('Error fetching filtered places:', error);
+    });
+
+
 }
 
 function updateCenterAndSearch(keyword) {
     var center = map.getCenter();
     clearMarkers();
     fetchPlacesFromBackend(center.getLat(), center.getLng());
-    searchNearby(keyword || 'StarBucks', center); // Use the provided keyword or default to 'StarBucks'
+   //searchNearby(keyword || 'StarBucks', center); // Use the provided keyword or default to 'StarBucks'
+   searchNearby(keyword , center); 
 }
 
 
@@ -172,9 +194,11 @@ function fetchAndUpdatePlaces() {
     var center = map.getCenter();
     clearMarkers();
     // Fetch new places without changing the map's center.
-    searchNearby('Starbucks', center); // Replace 'Starbucks' with your desired default or dynamic keyword.
+   // searchNearby('Starbucks', center); // Replace 'Starbucks' with your desired default or dynamic keyword.
 }
-kakao.maps.event.addListener(map, 'dragend', fetchAndUpdatePlaces);
+      kakao.maps.event.addListener(map, 'dragend', function() {
+            updateCenterAndSearch();
+        });
 
 // When you want to update the center without a new search, simply clear the markers and fetch new ones
 // kakao.maps.event.addListener(map, 'dragend', function () {
