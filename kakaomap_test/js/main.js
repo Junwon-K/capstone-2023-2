@@ -1,7 +1,8 @@
+
 var mapContainer = document.getElementById('map'),
     mapOption = {
         center: new kakao.maps.LatLng(37.504937827895866, 126.9576790776909),
-        level: 3
+        level: 2
     };
 
 var map = new kakao.maps.Map(mapContainer, mapOption);
@@ -50,7 +51,91 @@ function convertToPlaceFormat(dbData) {
     });
 }
 
+// function markPlaces(places) {
+//     places.forEach(function (place) {
+//         var markerPosition = new kakao.maps.LatLng(place.lat, place.lng);
+//         var marker = new kakao.maps.Marker({
+//             position: markerPosition,
+//             title: place.name
+//         });
+//         marker.setMap(map);
+//         markers.push(marker);
+
+//         var iwContent = '<div style="padding:5px;">' + place.name;
+//         if (place.link) {
+//             iwContent +=
+//                 '<br><a href="https://map.kakao.com/link/map/' + place.name + ',' +
+//                 place.lat + ',' + place.lng +
+//                 '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/' +
+//                 place.name + ',' + place.lat + ',' + place.lng +
+//                 '" style="color:blue" target="_blank">길찾기</a>';
+//         }
+//         iwContent += '</div>';
+
+//         var infowindow = new kakao.maps.InfoWindow({
+//             content: iwContent
+//         });
+
+//         kakao.maps.event.addListener(marker, 'click', function () {
+//             if (currentInfowindow === infowindow) {
+//                 infowindow.close();
+//                 currentInfowindow = null;
+//             } else {
+//                 if (currentInfowindow) {
+//                     currentInfowindow.close();
+//                 }
+//                 infowindow.open(map, marker);
+//                 currentInfowindow = infowindow;
+//             }
+//         });
+//     });
+// }
+
+
+/////////////////오버레이 부분
+
+const mockData = { // 이건 그냥 내가 보려고 넣은 가상 데이터, 학교 앞 중앙대점 누르면 볼 수 있음
+    id: 'mock1', 
+    name: 'Starbucks Coffee Shop',
+    address: '123 Coffee Lane, Beanstown, CA',
+    starRating: 'Capricorn',
+    comments: 'Great ambiance and Wi-Fi.',
+    numberOfStarRatingReviews: 42,
+    lat: 37.504937827895866,
+    lng: 126.9576790776909
+};
+
+function handleMarkerClick(place) {
+    const useBackend = false; // 백엔드 쓸때는 true로 바꿔
+
+    if (useBackend) {
+        fetch(`/place/detail?id=${place.id}`)
+            .then(response => response.json())
+            .then(data => {
+                createAndShowOverlay(data);
+            })
+            .catch(error => {
+                console.error('Error fetching place details:', error);
+            });
+    } else {
+        createAndShowOverlay(mockData);
+    }
+}
+
+
+function createAndShowOverlay(placeData) {
+    const overlay = createPlaceOverlay(placeData, map);
+    if (window.currentOverlay) {
+        window.currentOverlay.setMap(null);
+    }
+    overlay.setMap(map);
+    window.currentOverlay = overlay;
+}
+
+
 function markPlaces(places) {
+    clearMarkers();
+
     places.forEach(function (place) {
         var markerPosition = new kakao.maps.LatLng(place.lat, place.lng);
         var marker = new kakao.maps.Marker({
@@ -60,35 +145,12 @@ function markPlaces(places) {
         marker.setMap(map);
         markers.push(marker);
 
-        var iwContent = '<div style="padding:5px;">' + place.name;
-        if (place.link) {
-            iwContent +=
-                '<br><a href="https://map.kakao.com/link/map/' + place.name + ',' +
-                place.lat + ',' + place.lng +
-                '" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/' +
-                place.name + ',' + place.lat + ',' + place.lng +
-                '" style="color:blue" target="_blank">길찾기</a>';
-        }
-        iwContent += '</div>';
-
-        var infowindow = new kakao.maps.InfoWindow({
-            content: iwContent
-        });
-
         kakao.maps.event.addListener(marker, 'click', function () {
-            if (currentInfowindow === infowindow) {
-                infowindow.close();
-                currentInfowindow = null;
-            } else {
-                if (currentInfowindow) {
-                    currentInfowindow.close();
-                }
-                infowindow.open(map, marker);
-                currentInfowindow = infowindow;
-            }
+            handleMarkerClick(place);
         });
     });
 }
+////////// 오버레이 끝
 
 
 var initialSearchDone = false;
@@ -149,7 +211,7 @@ function fetchPlacesFromBackend(lat, lng) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-         disabled_person: document.getElementById('disabled_person').checked,
+        disabled_person: document.getElementById('disabled_person').checked,
         changing_table_man: document.getElementById('changing_table_man').checked,
         changing_table_woman: document.getElementById('changing_table_woman').checked,
         emergency_bell_man: document.getElementById('emergency_bell_man').checked,
@@ -176,7 +238,7 @@ function updateCenterAndSearch(keyword) {
     var center = map.getCenter();
     clearMarkers();
     fetchPlacesFromBackend(center.getLat(), center.getLng());
-   //searchNearby(keyword || 'StarBucks', center); // Use the provided keyword or default to 'StarBucks'
+   searchNearby(keyword || 'StarBucks', center); // Use the provided keyword or default to 'StarBucks'
    searchNearby(keyword , center); 
 }
 
@@ -194,7 +256,7 @@ function fetchAndUpdatePlaces() {
     var center = map.getCenter();
     clearMarkers();
     // Fetch new places without changing the map's center.
-   // searchNearby('Starbucks', center); // Replace 'Starbucks' with your desired default or dynamic keyword.
+    searchNearby('Starbucks', center); // Replace 'Starbucks' with your desired default or dynamic keyword.
 }
       kakao.maps.event.addListener(map, 'dragend', function() {
             updateCenterAndSearch();
