@@ -9,31 +9,28 @@ function createOverlayContent(place) {
                 <p>Number of StarRating Reviews: ${place.numberOfStarRatingReviews}</p>
                 <p>Comments: ${place.comments}</p>
                 <a href="view_details.html?id=${place.id}" target="_blank">More details</a>
-                <button class="overlay-close-btn" onclick="closeCurrentOverlay()">Close</button>
+                <button class="overlay-close-btn" onclick="window.closeCurrentOverlay()">Close</button>
             </div>
         </div>
     `;
 }
 
-function createPlaceOverlay(place, map) {
+function createAndShowOverlay(place, map) {
     var overlayContent = createOverlayContent(place);
     var overlay = new kakao.maps.CustomOverlay({
         content: overlayContent,
         map: map,
         position: new kakao.maps.LatLng(place.lat, place.lng),
-        xAnchor: 0.3,
-        yAnchor: 0.91
+        xAnchor: 0.5,
+        yAnchor: 0.5
     });
-    return overlay;
+
+    window.currentOverlay = overlay;
 }
 
-// This function needs to be in the global scope
-function closeCurrentOverlay() {
+window.closeCurrentOverlay = function() {
     if (window.currentOverlay) {
         window.currentOverlay.setMap(null);
         window.currentOverlay = null;
     }
-}
-
-// Expose the function to the global scope
-window.closeCurrentOverlay = closeCurrentOverlay;
+};
