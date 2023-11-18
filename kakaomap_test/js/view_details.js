@@ -4,30 +4,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const amendLink = document.getElementById('amendLink');
 
     // 모달
-    function loadAmendInformationModal() {
-        fetch(`/amend_information?id=${placeId}`)
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('amendModalContent').innerHTML = html;
-                document.getElementById('amendModal').style.display = 'block';
+    // function loadAmendInformationModal() {
+    //     fetch(`/amend_information?id=${placeId}`)
+    //         .then(response => response.text())
+    //         .then(html => {
+    //             document.getElementById('amendModalContent').innerHTML = html;
+    //             document.getElementById('amendModal').style.display = 'block';
     
-                // Close button event listener
-                document.querySelector('#amendModal .close').addEventListener('click', function() {
-                    document.getElementById('amendModal').style.display = 'none';
-                });
+    //             // Close button event listener
+    //             document.querySelector('#amendModal .close').addEventListener('click', function() {
+    //                 document.getElementById('amendModal').style.display = 'none';
+    //             });
             
-            })
-            .catch(error => {
-                console.error('Error loading amend information:', error);
-            });
-        }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error loading amend information:', error);
+    //         });
+    //     }
     
     
     amendLink.addEventListener('click', function(event) {
         // 기본 동작(링크 이동) 방지
         event.preventDefault();
         // 예: 새로운 페이지 열기 << 모달 추가하면서 이 부분 주석 처리함
-        //  window.open(`/amend_information?id=${placeId}`, '_blank');
+        window.open(`/amend_information?id=${placeId}`, '_blank');
 
         loadAmendInformationModal();
     });
