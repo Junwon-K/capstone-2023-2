@@ -9,13 +9,13 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.text())
             .then(html => {
                 document.getElementById('amendModalContent').innerHTML = html;
+                document.getElementById('amendModal').style.display = 'block';
     
                 // Close button event listener
                 document.querySelector('#amendModal .close').addEventListener('click', function() {
                     document.getElementById('amendModal').style.display = 'none';
                 });
-
-                document.getElementById('amendModal').style.display = 'block';
+            
             })
             .catch(error => {
                 console.error('Error loading amend information:', error);
@@ -114,5 +114,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 modal.style.display = 'none';
             }
         };
+
+
+        // 이건 필터창 모달 부분인데 정보 수정 제안에서 바깥에 눌러서 안닫히면 
+        // 아래 부분으로 테스트 해줘
+        // window.onclick = function(event) {
+        //     if (event.target == modal) {
+        //         modal.style.display = 'none';
+        //     }
+        // }
     });
 });
