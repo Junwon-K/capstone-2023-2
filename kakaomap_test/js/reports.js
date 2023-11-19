@@ -1,6 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
     const placeId = new URLSearchParams(window.location.search).get('id');
 
+    document.querySelector('.amend_info_container .close').addEventListener('click', function() {
+        window.location.href = `/view_details.html?id=${placeId}`;
+    });
+
     function setupModalEventListeners(modal) {
     
         modal.querySelector('.close').addEventListener('click', function() {
@@ -11,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (closeFooterButton) {
             closeFooterButton.addEventListener('click', function() {
                 modal.style.display = 'none';
+
             });
         }
 
