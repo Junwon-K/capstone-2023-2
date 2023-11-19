@@ -3,34 +3,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const placeId = urlParams.get('id');
     const amendLink = document.getElementById('amendLink');
 
-    // 모달
-    // function loadAmendInformationModal() {
-    //     fetch(`/amend_information?id=${placeId}`)
-    //         .then(response => response.text())
-    //         .then(html => {
-    //             document.getElementById('amendModalContent').innerHTML = html;
-    //             document.getElementById('amendModal').style.display = 'block';
-    
-    //             // Close button event listener
-    //             document.querySelector('#amendModal .close').addEventListener('click', function() {
-    //                 document.getElementById('amendModal').style.display = 'none';
-    //             });
-            
-    //         })
-    //         .catch(error => {
-    //             console.error('Error loading amend information:', error);
-    //         });
-    //     }
-    
+
+    document.getElementById('backButton').addEventListener('click', function() {
+        window.location.href = `/index.html`; // 현재 창에서 index.html로 이동
+    });
     
     amendLink.addEventListener('click', function(event) {
         // 기본 동작(링크 이동) 방지
         event.preventDefault();
-        // 예: 새로운 페이지 열기 << 모달 추가하면서 이 부분 주석 처리함
-        window.open(`/amend_information?id=${placeId}`, '_blank');
+        // window.open(`/amend_information?id=${placeId}`, '_blank');
+        window.location.href = `/amend_information?id=${placeId}`;
 
-        // loadAmendInformationModal();
     });
+
+
+    //// 이 부분 추가함 11-19, 19시 38분
+    function initMap(place) {
+        var mapContainer = document.getElementById('map');
+        var mapOption = {
+            center: new kakao.maps.LatLng(place.lat, place.lng),
+            level: 3,
+            draggable: false // 드래그 기능 비활성화
+        };
+    
+        var map = new kakao.maps.Map(mapContainer, mapOption);
+    
+        // 지도 중심에 마커 표시
+        new kakao.maps.Marker({
+            map: map,
+            position: map.getCenter()
+        });
+    }
 
     //place details 준원
     fetch(`/place/detail?id=${placeId}`)
@@ -40,6 +43,10 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('starRating').textContent = place.star_average;
             document.getElementById('address').textContent = place.address;
             //document.getElementById('toiletInfo').textContent = place.toiletInfo;
+
+
+            initMap(place);
+   
         })
         .catch(error => {
             console.error('Error:', error);
@@ -115,15 +122,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         };
 
-        // 이건 필터창 모달 부분인데 정보 수정 제안에서 바깥에 눌러서 안닫히면 
-        // 아래 부분으로 테스트 해줘
-        // window.onclick = function(event) {
-        //     if (event.target == modal) {
-        //         modal.style.display = 'none';
-        //     }
-        // }
     });
 
+
+    // 별점 제출
     document.getElementById('submitRating').addEventListener('click', function() {
         const selectedRating = document.querySelector('input[name="rating"]:checked').value;
         const ratingData = {
@@ -142,19 +144,19 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify(ratingData)
 
         })
-
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
         })
-
-        // .then(() => {
-            
-        // })
+        .then(() => {
+            // alert으로 별점 제출 알림
+            alert(`제출된 별점: ${selectedRating}점`);
+        })
         .catch(error => {
             console.error('Error:', error);
+            alert('별점 제출 중 오류가 발생했습니다.');
         });
     });
 });
