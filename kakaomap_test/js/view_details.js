@@ -1,14 +1,14 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
     const placeId = urlParams.get('id');
     const amendLink = document.getElementById('amendLink');
 
 
-    document.getElementById('backButton').addEventListener('click', function() {
-        window.location.href = `/index.html`; // 현재 창에서 index.html로 이동
+    document.getElementById('backButton').addEventListener('click', function () {
+        window.location.href = `/`; // 현재 창에서 index.html로 이동
     });
-    
-    amendLink.addEventListener('click', function(event) {
+
+    amendLink.addEventListener('click', function (event) {
         // 기본 동작(링크 이동) 방지
         event.preventDefault();
         // window.open(`/amend_information?id=${placeId}`, '_blank');
@@ -21,13 +21,13 @@ document.addEventListener('DOMContentLoaded', function() {
     function initMap(place) {
         var mapContainer = document.getElementById('map');
         var mapOption = {
-            center: new kakao.maps.LatLng(place.lat, place.lng),
+            center: new kakao.maps.LatLng(place.latitude, place.longitude),
             level: 3,
             draggable: false // 드래그 기능 비활성화
         };
-    
+
         var map = new kakao.maps.Map(mapContainer, mapOption);
-    
+
         // 지도 중심에 마커 표시
         new kakao.maps.Marker({
             map: map,
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
             initMap(place);
-   
+
         })
         .catch(error => {
             console.error('Error:', error);
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
     // 제출 버튼 클릭
-    document.getElementById('submitReview').addEventListener('click', function() {
+    document.getElementById('submitReview').addEventListener('click', function () {
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
         const reviewText = document.getElementById('reviewText').value;
@@ -91,31 +91,31 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify(commentData)
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(() => {
-            //리뷰 창 업데이트?
-            const commentsContainer = document.getElementById('reviews');
-            const commentElement = document.createElement('p');
-            commentElement.textContent = `Username: ${username}, Comment: ${reviewText}`;
-            commentsContainer.appendChild(commentElement);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(() => {
+                //리뷰 창 업데이트?
+                const commentsContainer = document.getElementById('reviews');
+                const commentElement = document.createElement('p');
+                commentElement.textContent = `Username: ${username}, Comment: ${reviewText}`;
+                commentsContainer.appendChild(commentElement);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
 
         // 리뷰창 비우기
         document.getElementById('username').value = '';
         document.getElementById('password').value = '';
         document.getElementById('reviewText').value = '';
 
-        location.reload(); 
+        location.reload();
 
-        window.onclick = function(event) {
+        window.onclick = function (event) {
             let modal = document.getElementById('amendModal');
             if (event.target == modal) {
                 modal.style.display = 'none';
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // 별점 제출
-    document.getElementById('submitRating').addEventListener('click', function() {
+    document.getElementById('submitRating').addEventListener('click', function () {
         const selectedRating = document.querySelector('input[name="rating"]:checked').value;
         const ratingData = {
             placeId: placeId,
@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('Selected Star Rating:', selectedRating);
 
         // 백엔드 경로 설정 필요
-        fetch(`/submit/rating`, {
+        fetch(`/starrating/enroll`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -144,19 +144,21 @@ document.addEventListener('DOMContentLoaded', function() {
             body: JSON.stringify(ratingData)
 
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(() => {
-            // alert으로 별점 제출 알림
-            alert(`제출된 별점: ${selectedRating}점`);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('별점 제출 중 오류가 발생했습니다.');
-        });
+            /*      
+            .then(response => {
+                      if (!response.ok) {
+                          throw new Error('Network response was not ok');
+                      }
+                      return response.json();
+                  })*/
+            .then(() => {
+                // alert으로 별점 제출 알림
+                alert(`제출된 별점: ${selectedRating}점`);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('별점 제출 중 오류가 발생했습니다.');
+            });
     });
 });

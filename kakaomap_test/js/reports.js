@@ -2,7 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const placeId = new URLSearchParams(window.location.search).get('id');
 
     document.querySelector('.amend_info_container .close').addEventListener('click', function () {
-        window.location.href = `/view_details.html?id=${placeId}`;
+    
+        window.location.href = `/view_details?id=${placeId}`;
     });
 
     function setupModalEventListeners(modal) {
