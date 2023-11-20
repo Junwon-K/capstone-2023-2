@@ -52,72 +52,20 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error:', error);
         });
 
-
-
-
-    
-
-    function displayComments(comments) {
-        const commentsContainer = document.getElementById('reviews');
-        commentsContainer.innerHTML = ''; // Clear existing comments
-        comments.forEach(comment => {
-            const commentElement = document.createElement('div');
-            commentElement.className = 'comment-item';
-            commentElement.innerHTML = `
-                <span>${comment.username} : ${comment.content}</span>
-                <button class="deleteComment" data-comment-id="${comment.id}">X</button>
-            `;
-            commentsContainer.appendChild(commentElement);
-        });
-    }
-
+    // 리뷰 받아오기
     fetch(`/comment/show?id=${placeId}`)
         .then(response => response.json())
         .then(comments => {
-            displayComments(comments);
+            const commentsContainer = document.getElementById('reviews');
+            comments.forEach(comment => {
+                const commentElement = document.createElement('p');
+                commentElement.textContent = `${comment.username} : ${comment.content}`; // Assuming 'content' is a field in your comment object
+                commentsContainer.appendChild(commentElement);
+            });
         })
         .catch(error => {
             console.error('Error:', error);
         });
-
-
-    document.getElementById('reviews').addEventListener('click', function (event) {
-        if (event.target.classList.contains('deleteComment')) {
-            const commentId = event.target.getAttribute('data-comment-id');
-            const userPassword = prompt('비밀번호를 입력해주세요:');
-            if (userPassword !== null && userPassword !== '') {
-                deleteComment(commentId, userPassword);
-            }
-        }
-    });
-
-    // Function to handle comment deletion
-    function deleteComment(commentId, password) {
-        // Call your backend delete endpoint
-        fetch(`/comment/delete?id=${commentId}`, {
-            method: 'POST', // Use POST if your endpoint supports it
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ password: password })
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Password incorrect or other error');
-            }
-            return response.json();
-        })
-        .then(() => {
-            alert('댓글이 삭제되었습니다.');
-            // Optionally remove the comment from the DOM without reloading
-            const commentToDelete = document.querySelector(`[data-comment-id="${commentId}"]`).parentNode;
-            commentToDelete.remove();
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('댓글 삭제 중 오류가 발생했습니다.');
-        });
-    }
 
     // 제출 버튼 클릭
     document.getElementById('submitReview').addEventListener('click', function () {
@@ -187,6 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         console.log('Selected Star Rating:', selectedRating);
 
+        // 백엔드 경로 설정 필요
         fetch(`/starrating/enroll`, {
             method: 'POST',
             headers: {
