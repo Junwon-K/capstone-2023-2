@@ -53,15 +53,39 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('starRating').textContent = place.star_average;
             document.getElementById('address').textContent = place.address;
             document.getElementById('opentime').textContent = place.opentime;
-
-            document.getElementById('disabled_man').textContent = place.disabled_man;
-            document.getElementById('disabled_woman').textContent = place.disabled_woman;
-            document.getElementById('diaper_man').textContent = place.diaper_man;
-            document.getElementById('diaper_woman').textContent = place.diaper_woman;
-
-            //백엔드 bell 코드 변경 필요
-            updateEmergencyBell(place.bell);
-
+			document.getElementById('starCount').textContent = place.star_count;	
+			if(place.disabled_man == "있음")             
+				document.getElementById('disabled_man').textContent = 1;
+			else
+				document.getElementById('disabled_man').textContent = 0;
+			if(place.disabled_woman == "있음")             
+				document.getElementById('disabled_woman').textContent = 1;
+			else
+				document.getElementById('disabled_woman').textContent = 0;
+				
+					
+ 			if(place.diaper.indexOf("남")!= -1)          
+				document.getElementById('diaper_man').textContent = 1;	
+			else
+				document.getElementById('diaper_man').textContent = 0;	
+			if(place.diaper.indexOf("여")!= -1)          
+				document.getElementById('diaper_woman').textContent = 1;	
+			else
+				document.getElementById('diaper_woman').textContent = 0;	
+				
+					
+			if(place.emergency_bell.indexOf("장애")!= -1)          
+				document.getElementById('bell_disabled').textContent = 1;	
+			else
+				document.getElementById('bell_disabled').textContent = 0;	
+			if(place.emergency_bell.indexOf("여")!= -1)          
+				document.getElementById('bell_woman').textContent = 1;	
+			else
+				document.getElementById('bell_woman').textContent = 0;	
+			if(place.emergency_bell.indexOf("남")!= -1)          
+				document.getElementById('bell_man').textContent = 1;	
+			else
+				document.getElementById('bell_man').textContent = 0;	
             initMap(place);
 
         })
@@ -185,22 +209,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Handle duplicated IP case
                     alert('이미 작성한 댓글이 있습니다.');
                 } else {
-                    // Handle successful submission	        // Uncomment the following lines if you want to display an alert and reload the page
-                    alert('댓글이 등록되었습니다.');
+                    // Handle successful submission	 
+				document.getElementById('username').value = '';
+      		    document.getElementById('password').value = '';
+        		document.getElementById('reviewText').value = '';
+       			// Uncomment the following lines if you want to display an alert and reload the page
+                alert('댓글이 등록되었습니다.');
+ 				location.reload();
                 }
             });
 
         // 리뷰창 비우기
-        document.getElementById('username').value = '';
-        document.getElementById('password').value = '';
-        document.getElementById('reviewText').value = '';
-        location.reload();
-        window.onclick = function (event) {
+
+       /* window.onclick = function (event) {
             let modal = document.getElementById('amendModal');
             if (event.target == modal) {
                 modal.style.display = 'none';
             }
-        };
+        };*/
     });
 
 
