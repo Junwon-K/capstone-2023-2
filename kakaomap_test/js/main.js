@@ -228,14 +228,16 @@ function fetchAndUpdatePlaces() {
     // 스타벅스, 프론트 개발시 주석 해제
     //searchNearby('Starbucks', center); 
 }
-      kakao.maps.event.addListener(map, 'dragend', function() {
-            updateCenterAndSearch();
-        });
+kakao.maps.event.addListener(map, 'dragend', function () {
+    updateCenterAndSearch();
+});
 
-// kakao.maps.event.addListener(map, 'dragend', function () {
-//     var center = map.getCenter();
-//     clearMarkers();
-//     fetchPlacesFromBackend(center.getLat(), center.getLng());
-// });
+document.addEventListener('DOMContentLoaded', function () {
+    const lastViewedPlace = JSON.parse(sessionStorage.getItem('lastViewedPlace'));
+    if (lastViewedPlace) {
+        map.setCenter(new kakao.maps.LatLng(lastViewedPlace.lat, lastViewedPlace.lng));
+    }
 
-updateCenterAndSearch();
+    // 나머지 초기화 코드...
+    updateCenterAndSearch();
+});
