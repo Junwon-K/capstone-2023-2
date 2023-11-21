@@ -30,6 +30,7 @@ document.getElementById('reset-filter').addEventListener('click', function () {
     document.querySelectorAll('#myModal .content_body_choice input[type="checkbox"]').forEach(function(checkbox) {
         checkbox.checked = false;
     });
+    resetSlider();
 });
 
 // 적용 버튼
@@ -43,6 +44,10 @@ document.getElementById('apply-filter').addEventListener('click', function () {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
+        //slider added
+        starLeftValue: document.getElementById('sign-left').innerHTML,
+        starRightValue: document.getElementById('sign-right').innerHTML,
+        //
         disabled_person: document.getElementById('disabled_person').checked,
         changing_table_man: document.getElementById('changing_table_man').checked,
         changing_table_woman: document.getElementById('changing_table_woman').checked,
@@ -52,6 +57,7 @@ document.getElementById('apply-filter').addEventListener('click', function () {
         lat: center.getLat(),
         lng: center.getLng()
         })
+        
     })
     .then(response => response.json())
     .then(data => {
