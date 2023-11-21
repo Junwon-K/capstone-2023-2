@@ -54,6 +54,10 @@ document.getElementById('apply-filter').addEventListener('click', function () {
         emergency_bell_man: document.getElementById('emergency_bell_man').checked,
         emergency_bell_woman: document.getElementById('emergency_bell_woman').checked,
         emergency_bell_disabled: document.getElementById('emergency_bell_disabled').checked,
+
+        rated: document.getElementById('rated').checked,
+        not_rated: document.getElementById('not_rated').checked,
+
         lat: center.getLat(),
         lng: center.getLng()
         })
@@ -68,6 +72,11 @@ document.getElementById('apply-filter').addEventListener('click', function () {
     .catch(error => {
         console.error('Error fetching filtered places:', error);
     });
+
+
+    //콘솔 필요 없으면 주석 처리해
+    console.log("별점 미평가 포함: ", document.getElementById('rated').checked);
+    console.log("별점 미평가 포함안함: ", document.getElementById('not_rated').checked);
     // Close the modal
     modal.style.display = 'none';
 });
