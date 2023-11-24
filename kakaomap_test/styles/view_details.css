@@ -28,8 +28,7 @@
         flex-direction: column;
         align-items: center;
         /* justify-content: flex-start;  */
-        min-height: 100vh;
-        /* width: 100vw; */
+        width: 100vw;
 
     }
  
@@ -44,6 +43,7 @@
         /* margin-top: 0.5rem; */
         border: 1px solid #ccc;
         /* border-radius: 0.4rem; */
+        z-index: 2;
     }
 
     #backButton{
@@ -435,19 +435,6 @@
         background-color: #0056b3;
     }
 
-
-    .details-container {
-        /* Your styles for the container */
-    }
-
-    #map {
-        margin-top: 20px;
-        /* Space above the map */
-        border: 1px solid #ccc;
-        /* Border around the map */
-        border-radius: 4px;
-        /* Rounded corners */
-    }
 
 
     /* 리뷰 표시 스타일 */

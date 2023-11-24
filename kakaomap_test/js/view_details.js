@@ -146,6 +146,8 @@ document.addEventListener('DOMContentLoaded', function () {
         const commentsContainer = document.getElementById('reviews');
         commentsContainer.innerHTML = ''; // Clear existing comments
         comments.forEach(comment => {
+            const dateOnly = comment.createDate.substring(0, 10);
+
             const commentElement = document.createElement('div');
             commentElement.className = 'comment-item';
             commentElement.innerHTML = `
@@ -155,7 +157,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class = "comment_container_detail">
                         <div class = "review_comment_id">${comment.username}</div>
                         <div class = "review_comment_bar"></div>
-                        <div class = "review_comment_date">${comment.date}</div> 
+                        <div class = "review_comment_date">${dateOnly}</div>  
                     </div>
                     <div class="deleteComment" data-comment-id="${comment.id}">&times</div>
                 </div>
