@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // document.getElementById('backButton').addEventListener('click', function () {
     //     const urlParams = new URLSearchParams(window.location.search);
     //     const placeId = urlParams.get('id');
-    
+
     //     fetch(`/place/detail?id=${placeId}`)
     //         .then(response => response.json())
     //         .then(place => {
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const hasBellMan = bellString.indexOf('남자화장실') !== -1;
         const hasBellWoman = bellString.indexOf('여자화장실') !== -1;
         const hasBellDisabled = bellString.indexOf('장애인화장실') !== -1;
-    
+
         document.getElementById('bell_man').textContent = hasBellMan ? '있음' : '없음';
         document.getElementById('bell_woman').textContent = hasBellWoman ? '있음' : '없음';
         document.getElementById('bell_disabled').textContent = hasBellDisabled ? '있음' : '없음';
@@ -70,39 +70,39 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('starRating').textContent = place.star_average;
             document.getElementById('address').textContent = place.address;
             document.getElementById('opentime').textContent = place.opentime;
-			document.getElementById('starCount').textContent = place.star_count;	
-			if(place.disabled_man == "있음")             
-				document.getElementById('disabled_man').textContent = 1;
-			else
-				document.getElementById('disabled_man').textContent = 0;
-			if(place.disabled_woman == "있음")             
-				document.getElementById('disabled_woman').textContent = 1;
-			else
-				document.getElementById('disabled_woman').textContent = 0;
-				
-					
- 			if(place.diaper.indexOf("남")!= -1)          
-				document.getElementById('diaper_man').textContent = 1;	
-			else
-				document.getElementById('diaper_man').textContent = 0;	
-			if(place.diaper.indexOf("여")!= -1)          
-				document.getElementById('diaper_woman').textContent = 1;	
-			else
-				document.getElementById('diaper_woman').textContent = 0;	
-				
-					
-			if(place.emergency_bell.indexOf("장애")!= -1)          
-				document.getElementById('bell_disabled').textContent = 1;	
-			else
-				document.getElementById('bell_disabled').textContent = 0;	
-			if(place.emergency_bell.indexOf("여")!= -1)          
-				document.getElementById('bell_woman').textContent = 1;	
-			else
-				document.getElementById('bell_woman').textContent = 0;	
-			if(place.emergency_bell.indexOf("남")!= -1)          
-				document.getElementById('bell_man').textContent = 1;	
-			else
-				document.getElementById('bell_man').textContent = 0;	
+            document.getElementById('starCount').textContent = place.star_count;
+            if (place.disabled_man == "있음")
+                document.getElementById('disabled_man').textContent = 1;
+            else
+                document.getElementById('disabled_man').textContent = 0;
+            if (place.disabled_woman == "있음")
+                document.getElementById('disabled_woman').textContent = 1;
+            else
+                document.getElementById('disabled_woman').textContent = 0;
+
+
+            if (place.diaper.indexOf("남") != -1)
+                document.getElementById('diaper_man').textContent = 1;
+            else
+                document.getElementById('diaper_man').textContent = 0;
+            if (place.diaper.indexOf("여") != -1)
+                document.getElementById('diaper_woman').textContent = 1;
+            else
+                document.getElementById('diaper_woman').textContent = 0;
+
+
+            if (place.emergency_bell.indexOf("장애") != -1)
+                document.getElementById('bell_disabled').textContent = 1;
+            else
+                document.getElementById('bell_disabled').textContent = 0;
+            if (place.emergency_bell.indexOf("여") != -1)
+                document.getElementById('bell_woman').textContent = 1;
+            else
+                document.getElementById('bell_woman').textContent = 0;
+            if (place.emergency_bell.indexOf("남") != -1)
+                document.getElementById('bell_man').textContent = 1;
+            else
+                document.getElementById('bell_man').textContent = 0;
             initMap(place);
 
         })
@@ -111,6 +111,36 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 
+    // 프론트 css를 위한 더미 데이터
+    // const dummyComments = [
+    //     { username: "사용자1", content: "댓글 내용 1", id: "1" },
+    //     { username: "사용자2", content: "댓글 내용 2", id: "2" },
+    //     { username: "사용자2", content: "댓글 내용 2", id: "2" },
+       
+    //     { username: "사용자2", content: "댓글 내용 2", id: "2" },
+
+    //     // 기타 더미 코멘트
+    // ];
+
+    // displayComments(dummyComments);
+     
+
+
+
+    // function displayComments(comments) {
+    //     const commentsContainer = document.getElementById('reviews');
+    //     commentsContainer.innerHTML = ''; // Clear existing comments
+    //     comments.forEach(comment => {
+    //         const commentElement = document.createElement('div');
+    //         commentElement.className = 'comment-item';
+    //         commentElement.innerHTML = `
+            
+    //             <span>${comment.username} : ${comment.content}</span>
+    //             <button class="deleteComment" data-comment-id="${comment.id}">X</button>
+    //         `;
+    //         commentsContainer.appendChild(commentElement);
+    //     });
+    // }
 
     function displayComments(comments) {
         const commentsContainer = document.getElementById('reviews');
@@ -119,8 +149,18 @@ document.addEventListener('DOMContentLoaded', function () {
             const commentElement = document.createElement('div');
             commentElement.className = 'comment-item';
             commentElement.innerHTML = `
-                <span>${comment.username} : ${comment.content}</span>
-                <button class="deleteComment" data-comment-id="${comment.id}">X</button>
+            
+            <div class = "review_component">
+                <div class = "review_comment_container">
+                    <div class = "comment_container_detail">
+                        <div class = "review_comment_id">${comment.username}</div>
+                        <div class = "review_comment_bar"></div>
+                        <div class = "review_comment_date">${comment.date}</div> 
+                    </div>
+                    <div class="deleteComment" data-comment-id="${comment.id}">&times</div>
+                </div>
+                <div class = "comment_container_content">${comment.content}</div>
+            </div>
             `;
             commentsContainer.appendChild(commentElement);
         });
@@ -155,7 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                placeId: placeId,     
+                placeId: placeId,
                 password: password
             })
         })
@@ -227,23 +267,23 @@ document.addEventListener('DOMContentLoaded', function () {
                     alert('이미 작성한 댓글이 있습니다.');
                 } else {
                     // Handle successful submission	 
-				document.getElementById('username').value = '';
-      		    document.getElementById('password').value = '';
-        		document.getElementById('reviewText').value = '';
-       			// Uncomment the following lines if you want to display an alert and reload the page
-                alert('댓글이 등록되었습니다.');
- 				location.reload();
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                    document.getElementById('reviewText').value = '';
+                    // Uncomment the following lines if you want to display an alert and reload the page
+                    alert('댓글이 등록되었습니다.');
+                    location.reload();
                 }
             });
 
         // 리뷰창 비우기
 
-       /* window.onclick = function (event) {
-            let modal = document.getElementById('amendModal');
-            if (event.target == modal) {
-                modal.style.display = 'none';
-            }
-        };*/
+        /* window.onclick = function (event) {
+             let modal = document.getElementById('amendModal');
+             if (event.target == modal) {
+                 modal.style.display = 'none';
+             }
+         };*/
     });
 
 

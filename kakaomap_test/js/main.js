@@ -7,6 +7,17 @@ var mapContainer = document.getElementById('map'),
 var map = new kakao.maps.Map(mapContainer, mapOption);
 var currentInfowindow = null;
 var markers = [];
+//11.24추가 시작
+var imageGraySrc = 'img/gray_marker.png'; // 마커이미지의 주소입니다    
+var imageBlueSrc = 'img/blue_marker.png';
+var imageGreenSrc = 'img/green_marker.png';
+var imageRedSrc = 'img/red_marker.png';
+
+var imageSize = new kakao.maps.Size(30,30); // 마커이미지의 크기입니다
+			 // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+var imageOption = {offset: new kakao.maps.Point(15, 30)};
+       		// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+//11.24추가 끝
 // var overlays = [];
 
 // 지도에 마커와 인포윈도우를 표시
@@ -56,21 +67,22 @@ function clearMarkers() {
 
 //위 주석 처리는 프론트에서 쓰던거, 아래 부분은 백엔드 코드
 function convertToPlaceFormat(dbData) {
-    return dbData.map(place => {
+	//11.24 placecontainer로 변경
+    return dbData.map(placecontainer => {
 	return{
-        id: place.id,
-        name: place.name,
-        address: place.address,
-        lat: parseFloat(place.latitude),
-        lng: parseFloat(place.longitude),
-        opentime: place.opentime,
-        averageOfStarRating: place.star_average,
-        numberOfStarRating: place.star_count,
-        numberOfComments: place.comment_count 
+        id: placecontainer.place.id,
+        name: placecontainer.place.name,
+        address: placecontainer.place.address,
+        lat: parseFloat(placecontainer.place.latitude),
+        lng: parseFloat(placecontainer.place.longitude),
+        opentime: placecontainer.place.opentime,
+        averageOfStarRating: placecontainer.place.star_average,
+        numberOfStarRating: placecontainer.place.star_count,
+        numberOfComments: placecontainer.place.comment_count,
+		color : placecontainer.status // 마커 색상 
  	 	};
 	});
 }
-
 
 
 const mockData = { // 이건 그냥 내가 보려고 넣은 가상 데이터, 학교 앞 중앙대점 누르면 볼 수 있음
@@ -87,7 +99,7 @@ const mockData = { // 이건 그냥 내가 보려고 넣은 가상 데이터, �
 function handleMarkerClick(marker) {
     const useBackend = true; // 백엔드 쓸때는 true로 바꿔
 	var place = marker.data;
-	console.log('Clicked Marker ID:', place.id);
+	//console.log('Clicked Marker ID:', place.id);
     if (useBackend) {
         fetch(`/place/detail?id=${place.id}`)
             .then(response => response.json())
@@ -126,13 +138,50 @@ function createAndShowOverlay(placeData) {
 
 function markPlaces(places) {
     clearMarkers();
-
-    places.forEach(function (place) {
-        var markerPosition = new kakao.maps.LatLng(place.lat, place.lng);
-        var marker = new kakao.maps.Marker({
+    //11.24추가 markerImage
+    var markerImageGray = new kakao.maps.MarkerImage(imageGraySrc, imageSize, imageOption);
+    var markerImageBlue = new kakao.maps.MarkerImage(imageBlueSrc, imageSize, imageOption);
+    var markerImageGreen = new kakao.maps.MarkerImage(imageGreenSrc, imageSize, imageOption);
+    var markerImageRed = new kakao.maps.MarkerImage(imageRedSrc, imageSize, imageOption);
+       places.forEach(function (place) { //11.24 plcacecontainer로 변경
+    var markerPosition = new kakao.maps.LatLng(place.lat, place.lng);
+    //11.24 마커 색상 조건
+    var marker;// 0은 회색 , 1은 파란색 , 2는 초록색 , 3은 빨강
+    //console.log(place.color);
+    if( place.color == 3){
+        marker =  new kakao.maps.Marker({
             position: markerPosition,
-            title: place.name
+            title: place.name ,
+            image: markerImageRed 	//11.24추가 markerImage
         });
+    }
+    else if(place.color == 2){
+        marker =  new kakao.maps.Marker({
+            position: markerPosition,
+            title: place.name ,
+            image: markerImageGreen 	//11.24추가 markerImage
+        });
+    }
+    else if(parseInt(place.color) == 1){
+        marker =  new kakao.maps.Marker({
+            position: markerPosition,
+            title: place.name ,
+            image: markerImageBlue 	//11.24추가 markerImage
+        });
+    }
+    else if(place.color == 0){
+        marker =  new kakao.maps.Marker({
+            position: markerPosition,
+            title: place.name ,
+            image: markerImageGray 	//11.24추가 markerImage
+        });
+    }
+    else{
+            marker =  new kakao.maps.Marker({
+            position: markerPosition,
+            title: place.name 
+        });
+    }
         marker.setMap(map);
         markers.push(marker);
         marker.data = place;
