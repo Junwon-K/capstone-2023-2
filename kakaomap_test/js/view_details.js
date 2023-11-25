@@ -66,10 +66,14 @@ document.addEventListener('DOMContentLoaded', function () {
     fetch(`/place/detail?id=${placeId}`)
         .then(response => response.json())
         .then(place => {
+
+            const average = place.star_average;
+            
             document.getElementById('placeName').textContent = place.name;
-            document.getElementById('starRating').textContent = place.star_average;
+            //document.getElementById('starRating').textContent = place.star_average;
+            document.getElementById('starRating').textContent = Number.isInteger(average) ? average + ".0" : average;
             document.getElementById('address').textContent = place.address;
-            document.getElementById('opentime').textContent = place.opentime;
+            //document.getElementById('opentime').textContent = place.opentime;
             document.getElementById('starCount').textContent = place.star_count;
             if (place.disabled_man == "있음")
                 document.getElementById('disabled_man').textContent = 1;
@@ -113,12 +117,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // 프론트 css를 위한 더미 데이터
     // const dummyComments = [
-    //     { username: "사용자1", content: "댓글 내용 1", id: "1" },
-    //     { username: "사용자2", content: "댓글 내용 2", id: "2" },
-    //     { username: "사용자2", content: "댓글 내용 2", id: "2" },
-       
-    //     { username: "사용자2", content: "댓글 내용 2", id: "2" },
-
+    //     { username: "사용자1", content: "댓글 내용 1", id: "1", createDate: "2023-11-25" },
+    //     { username: "사용자2", content: "댓글 내용 2", id: "2", createDate: "2023-11-24" },
+    //     { username: "사용자3", content: "댓글 내용 3", id: "3", createDate: "2023-11-23" },
+        
     //     // 기타 더미 코멘트
     // ];
 
