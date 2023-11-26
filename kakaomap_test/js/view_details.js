@@ -269,7 +269,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 if (body.trim().toLowerCase() === "fail") {
                     // Handle duplicated IP case
                     alert('이미 작성한 댓글이 있습니다.');
-                } else {
+
+                }
+                if (body.trim().toLowerCase() === "blank") {
+                    // 빈칸이 존재
+                    alert('입력하지 않은 칸이 존재합니다.');
+                }
+                else {
                     // Handle successful submission	 
                     document.getElementById('username').value = '';
                     document.getElementById('password').value = '';

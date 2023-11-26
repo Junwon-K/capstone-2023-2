@@ -2,7 +2,7 @@
 // a href 부분 건드림 11-22, 02:33
 function createOverlayContent(place) {
 
-    const starRating = Number.isInteger(place.numberOfStarRating) ? `${place.numberOfStarRating}.0` : place.numberOfStarRating;
+    const starRating = Number.isInteger(place.averageOfStarRating) ? `${place.averageOfStarRating}.0` : place.averageOfStarRating;
 
     return `
         <div class="custom-overlay">

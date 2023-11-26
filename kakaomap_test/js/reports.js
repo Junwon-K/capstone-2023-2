@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     var modalContent = document.getElementById('reportModalContent');
                     modalContent.innerHTML = html;
                     setupModalEventListeners(modal);
-                    modal.style.display = 'block';
+                    modal.style.display = 'flex';
                 })
                 .catch(error => {
                     console.error('Error loading modal content:', error);
