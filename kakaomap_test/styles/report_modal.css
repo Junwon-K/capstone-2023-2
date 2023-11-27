@@ -142,7 +142,8 @@
     }
 
     #user_opinion::placeholder {
-        font-size: 0.7rem;
+        font-size: 0.8rem;
+        color: #474747;
     }
 
     #report_location_name {
@@ -201,6 +202,7 @@
         justify-content: center;
         align-items: center;
         position: relative;
+        margin-top: 40px;
     }
 
     .report_container_header_title {
@@ -321,7 +323,8 @@
     }
 
     #user_opinion::placeholder {
-        font-size: 0.7rem;
+        font-size: 0.9rem;
+        color: #474747;
     }
 
     #report_location_name {
@@ -499,7 +502,8 @@
     }
 
     #user_opinion::placeholder {
-        font-size: 13px;
+        font-size: 14px;
+        color: #474747;
     }
 
     #report_location_name {

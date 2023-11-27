@@ -238,8 +238,8 @@ function fetchPlacesFromBackend(lat, lng) {
             emergency_bell_disabled: document.getElementById('emergency_bell_disabled').checked,
             lat: center.getLat(),
             lng: center.getLng(),
-            leftValue: leftValue,
-            rightValue: rightValue,
+            leftValue: document.getElementById('sign-left').innerHTML,
+            rightValue: document.getElementById('sign-right').innerHTML,
             rated: document.getElementById('rated').checked,
             not_rated: document.getElementById('not_rated').checked
         })

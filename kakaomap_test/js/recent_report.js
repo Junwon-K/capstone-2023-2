@@ -4,25 +4,25 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     ///////////////////////////////////////////////////////////////////////////
-    function createDummyData() {
-        return [
-            { id: 1, type: "장소명 오류", content: "주소가 정확하지 않습니다.", createDate: '2023-01-01', count: 5 },
-            { id: 2, type: "정보 누락", content: "장애인 화장실 정보가 누락되었습니다.", createDate: '2023-02-15', count: 3 },
-            { id: 3, type: "기타", content: "영업시간이 변경되었습니다.", createDate: '2023-03-20', count: 2 }
-        ];
-    }
+    // function createDummyData() {
+    //     return [
+    //         { id: 1, type: "장소명 오류", content: "주소가 정확하지 않습니다.", createDate: '2023-01-01', count: 5 },
+    //         { id: 2, type: "정보 누락", content: "남자 화장실 기저귀 교환대가 없거나 파손됨.", createDate: '2023-02-15', count: 3 },
+    //         { id: 3, type: "기타", content: "영업시간이 변경되었습니다.", createDate: '2023-03-20', count: 2 }
+    //     ];
+    // }
 
-    // 더미 데이터를 화면에 표시
-    function displayDummyData() {
-        const dummyData = createDummyData();
-        reportsContainer.innerHTML = ''; // 기존 내용 초기화
+    // // 더미 데이터를 화면에 표시
+    // function displayDummyData() {
+    //     const dummyData = createDummyData();
+    //     reportsContainer.innerHTML = ''; // 기존 내용 초기화
 
-        dummyData.forEach(report => {
-            const reportElement = createReportElement(report);
-            reportsContainer.appendChild(reportElement);
-        });
-    }
-    displayDummyData(); // 더미 데이터 표시 함수 호출
+    //     dummyData.forEach(report => {
+    //         const reportElement = createReportElement(report);
+    //         reportsContainer.appendChild(reportElement);
+    //     });
+    // }
+    // displayDummyData(); // 더미 데이터 표시 함수 호출
 
     ///////////////////////////////////////////////////
 

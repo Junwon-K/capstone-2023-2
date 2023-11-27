@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
 
                 // 텍스트 입력 처리
-                var textInputs = modal.querySelectorAll('input[type="text"]');
+                var textInputs = modal.querySelectorAll('textarea');
                 textInputs.forEach(function (input) {
                     formData[input.name] = input.value;
                 });

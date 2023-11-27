@@ -170,6 +170,9 @@
         font-size: .8125rem;
         color: #FF6262;
         margin-right: 1vw;
+        
+        width: 80%;  /*2023-11-27 */
+        
     
     }
     
@@ -220,7 +223,7 @@
         background-color: #fefefe;
         border: 1px solid #888;
         width: 83%; /* 모달의 너비 */
-        height: 50vh;
+        height: 53vh;
         border-radius: 1rem; /* 모달의 모서리 둥글게 */
     }
 }
@@ -446,7 +449,7 @@
         background-color: #fefefe;
         border: 1px solid #888;
         width: 83%; /* 모달의 너비 */
-        height: 50vh;
+        height: 63vh;
         border-radius: 1rem; /* 모달의 모서리 둥글게 */
     }
 }
