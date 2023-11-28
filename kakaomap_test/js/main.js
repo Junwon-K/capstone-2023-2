@@ -8,7 +8,7 @@ var map = new kakao.maps.Map(mapContainer, mapOption);
 var currentInfowindow = null;
 var markers = [];
 //11.24추가 시작
-var imageGraySrc = 'img/gray_marker.png'; // 마커이미지의 주소입니다    
+var imageGraySrc = 'img/gray_marker.png';   
 var imageBlueSrc = 'img/blue_marker.png';
 var imageGreenSrc = 'img/green_marker.png';
 var imageRedSrc = 'img/red_marker.png';
@@ -198,6 +198,11 @@ function searchNearby(keyword, location, page = 1) {
         .then(response => response.json())
         .then(data => {
             const convertedData = convertToPlaceFormat(data);
+            //11.28 추가
+			if (convertedData.length === 0) {
+                alert("검색 결과가 존재하지 않습니다.");
+            } 
+			//11.28 추가
             markPlaces(convertedData);
             if (!initialSearchDone && convertedData.length > 0) {
                 map.panTo(new kakao.maps.LatLng(convertedData[0].lat, convertedData[0].lng));
@@ -266,7 +271,7 @@ function updateCenterAndSearch(keyword) {
     // searchNearby(keyword , center); 
 }
 
-
+/* 11.28 삭제
 document.getElementById('search-button').addEventListener('click', function () {
     var keyword = document.getElementById('keyword').value;
     if (keyword.trim() !== '') {
@@ -275,7 +280,7 @@ document.getElementById('search-button').addEventListener('click', function () {
         alert('Please enter a keyword to search.');
     }
 });
-
+*/
 function fetchAndUpdatePlaces() {
     var center = map.getCenter();
     clearMarkers();
