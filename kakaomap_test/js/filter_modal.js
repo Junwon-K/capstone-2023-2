@@ -52,8 +52,8 @@ document.getElementById('apply-filter').addEventListener('click', function () {
             emergency_bell_disabled: document.getElementById('emergency_bell_disabled').checked,
             lat: center.getLat(),
             lng: center.getLng(),
-            leftValue: leftValue,
-            rightValue: rightValue,
+            leftValue: document.getElementById('sign-left').innerHTML, //11.29 수정
+            rightValue: document.getElementById('sign-right').innerHTML,//11.29 수정
             rated: document.getElementById('rated').checked,
             not_rated: document.getElementById('not_rated').checked
         })
