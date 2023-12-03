@@ -142,24 +142,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // 프론트 css를 위한 더미 데이터
-    // const dummyComments = [
-    //     { username: "사용자1", content: "댓글 내용 1", id: "1", createDate: "2023-11-25" },
-    //     { username: "사용자2", content: "댓글 내용 2", id: "2", createDate: "2023-11-24" },
-    //     { username: "사용자3", content: "댓글 내용 3", id: "3", createDate: "2023-11-23" },
-    //     { username: "사용자1", content: "댓글 내용 1", id: "1", createDate: "2023-11-25" },
-    //     { username: "사용자2", content: "댓글 내용 2", id: "2", createDate: "2023-11-24" },
-    //     { username: "사용자3", content: "댓글 내용 3", id: "3", createDate: "2023-11-23" },
-    //     { username: "사용자1", content: "댓글 내용 1", id: "1", createDate: "2023-11-25" },
-    //     { username: "사용자2", content: "댓글 내용 2", id: "2", createDate: "2023-11-24" },
-    //     { username: "사용자3", content: "댓글 내용 3", id: "3", createDate: "2023-11-23" },
-    //     { username: "사용자1", content: "댓글 내용 1", id: "1", createDate: "2023-11-25" },
-    //     { username: "사용자2", content: "댓글 내용 2", id: "2", createDate: "2023-11-24" },
-    //     { username: "사용자3", content: "댓글 내용 3", id: "3", createDate: "2023-11-23" },
+    const dummyComments = [
+        { username: "사용자1", content: "댓글 내용 1", id: "1", createDate: "2023-11-25" },
+        { username: "사용자2", content: "댓글 내용 2", id: "2", createDate: "2023-11-24" },
+        { username: "사용자3", content: "댓글 내용 3", id: "3", createDate: "2023-11-23" },
+        { username: "사용자1", content: "댓글 내용 1", id: "1", createDate: "2023-11-25" },
+        { username: "사용자2", content: "댓글 내용 2", id: "2", createDate: "2023-11-24" },
+        { username: "사용자3", content: "댓글 내용 3", id: "3", createDate: "2023-11-23" },
+        { username: "사용자1", content: "댓글 내용 1", id: "1", createDate: "2023-11-25" },
+        { username: "사용자2", content: "댓글 내용 2", id: "2", createDate: "2023-11-24" },
+        { username: "사용자3", content: "댓글 내용 3", id: "3", createDate: "2023-11-23" },
+        { username: "사용자1", content: "댓글 내용 1", id: "1", createDate: "2023-11-25" },
+        { username: "사용자2", content: "댓글 내용 2", id: "2", createDate: "2023-11-24" },
+        { username: "사용자3", content: "댓글 내용 3", id: "3", createDate: "2023-11-23" },
         
-    //     // 기타 더미 코멘트
-    // ];
+        // 기타 더미 코멘트
+    ];
 
-    // displayComments(dummyComments);
+    displayComments(dummyComments);
      
 
 
@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class = "review_comment_bar"></div>
                         <div class = "review_comment_date">${dateOnly}</div>  
                     </div>
-                    <div class="deleteComment" data-comment-id="${comment.id}">&times</div>
+                    <div class="deleteComment" data-comment-id="${comment.id}" style="cursor: pointer">&times</div>
                 </div>
                 <div class = "comment_container_content">${comment.content}</div>
             </div>
